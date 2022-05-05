@@ -18,7 +18,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
+import sys 
+from tgbot.config import load_config
+sys.path.append('/home/radizh/Python/Telegram/Pavelspeaksbot/')
+config = load_config()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-_@c&04vd8y5r#5mgi*!@nw)0h+qf-p7$90psd*)ocr@d4$s@!o'
 
@@ -37,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'database',
+    'admin_panel.database',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'admin_panel.urls'
+ROOT_URLCONF = 'admin_panel.admin_panel.urls'
 
 TEMPLATES = [
     {
@@ -68,16 +71,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'admin_panel.wsgi.application'
+WSGI_APPLICATION = 'admin_panel.admin_panel.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-import sys 
-sys.path.append('/home/radizh/Python/Telegram/Pavelspeaksbot/')
-from tgbot.config import load_config
-config = load_config()
+
 
 DATABASES = {
     'default': {
