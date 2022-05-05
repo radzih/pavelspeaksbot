@@ -1,11 +1,10 @@
 import json
 
-
-from aiogram.dispatcher import Dispatcher, FSMContext
 from aiogram.types import CallbackQuery
+from aiogram.dispatcher import Dispatcher, FSMContext
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
 from tgbot.misc.regular_jobs import add_regular_jobs
-
-
 from tgbot.services.db import db_add_user, db_get_questions,\
     db_add_user_level
 from tgbot.keyboards.inline import get_answers_markup
@@ -54,10 +53,11 @@ async def start_test(
 async def testing(
     call: CallbackQuery, 
     state: FSMContext,
+    scheduler: AsyncIOScheduler,
     callback_data: dict) -> None:
     questions, previous_question_num, points, \
         answer_to_previous_question,\
-            previous_question, next_question = await get_data_for_questions(
+            previous_question = await get_data_for_questions(
                 state=state,
                 callback_data=callback_data
             )
@@ -70,8 +70,11 @@ async def testing(
         await calculate_results(
             call=call,
             points=points,
+            scheduler=scheduler,
         )
         return
+
+    next_question = questions[previous_question_num+1]
 
     await state.update_data(
         points=points,
@@ -95,14 +98,15 @@ async def get_data_for_questions(
     points = state_data.get('points')
 
     answer_to_previous_question = callback_data.get('answer')
-    next_question = questions[previous_question_num+1]
     previous_question = questions[previous_question_num]
+    
     return questions, previous_question_num, points, \
-        answer_to_previous_question, previous_question, next_question
+        answer_to_previous_question, previous_question
 
 async def calculate_results(
     call: CallbackQuery,
-    points: int) -> None:
+    points: int,
+    scheduler: AsyncIOScheduler) -> None:
     level = 'Низкий' if points < 17 else 'Средний' 
     await db_add_user_level(
         user_level=level,
@@ -115,7 +119,10 @@ async def calculate_results(
             'Жмите /help'
             )
     )
-    await add_regular_jobs()
+    await add_regular_jobs(
+        bot=call.bot,
+        scheduler=scheduler,
+        telegram_id=call.from_user.id,    )
 
 def register_test_handlers(dp: Dispatcher) -> None:
     dp.register_callback_query_handler(

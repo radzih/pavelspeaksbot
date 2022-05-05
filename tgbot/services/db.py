@@ -51,4 +51,6 @@ def db_get_random_word(telegram_id: int) -> Word:
             category__in=user_words_categories,
             level=user.level
         ).order_by('?').first()
+    user.words.add(random_word)
+    user.save()
     return random_word
