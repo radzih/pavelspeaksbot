@@ -42,7 +42,7 @@ def db_add_user_level(
 def db_get_random_word(telegram_id: int) -> Word:
     user = User.objects.get(telegram_id=telegram_id)
     user_words_categories = user.words_categories.all()
-    if user_words_categories:
+    if not user_words_categories:
         random_word = Word.objects.filter(
             level=user.level
         ).order_by('?').first()
