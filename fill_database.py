@@ -58,6 +58,6 @@ def add_words_and_words_categories(words: list) -> None:
             audio_path=f'/data/audio/files/{word.get("uuid")}.mp3'
         ).save()
 
-# add_test(questions)
-# add_levels()
+add_test(questions)
+add_levels()
 add_words_and_words_categories(words)
