@@ -1,3 +1,6 @@
+from ast import Call
+from email import message
+from email.message import Message
 import json
 
 from aiogram.types import CallbackQuery
@@ -12,11 +15,17 @@ from tgbot.keyboards.inline import answer_callback_data
 from tgbot.filters.notregistered import NotRegistered
 
 async def say_that_test_started(
-    call: CallbackQuery) -> None:
-    await call.message.edit_text(
-        text='Вы уже начали тест, пройдите его'
+    call: CallbackQuery or Message) -> None:
+    if isinstance(call, CallbackQuery):
+        await call.message.edit_text(
+            text='Вы уже начали тест, пройдите его'
+            )
+    else:
+        await call.delete()
+        await call.answer(
+            text='Для начала пройдите тест'
         )
-
+        
 async def say_that_test_passed(
     call: CallbackQuery) -> None:
     await call.message.edit_text(
@@ -125,6 +134,10 @@ async def calculate_results(
         telegram_id=call.from_user.id,    )
 
 def register_test_handlers(dp: Dispatcher) -> None:
+    dp.register_message_handler(
+        say_that_test_started,
+        state='testing'
+    )
     dp.register_callback_query_handler(
         testing,
         answer_callback_data.filter(),

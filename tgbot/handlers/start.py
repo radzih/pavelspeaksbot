@@ -11,4 +11,4 @@ async def user_start(message: Message) -> None:
 
 
 def register_start_handlers(dp: Dispatcher):
-    dp.register_message_handler(user_start, commands=["start"], state="*")
+    dp.register_message_handler(user_start, commands=["start"])
