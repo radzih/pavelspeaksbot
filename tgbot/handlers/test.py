@@ -11,10 +11,16 @@ from tgbot.keyboards.inline import get_answers_markup
 from tgbot.keyboards.inline import answer_callback_data
 from tgbot.filters.notregistered import NotRegistered
 
+async def say_that_test_started(
+    call: CallbackQuery) -> None:
+    await call.message.edit_text(
+        text='Вы уже начали тест, пройдите его'
+        )
+
 async def say_that_test_passed(
     call: CallbackQuery) -> None:
     await call.message.edit_text(
-        text='You already passed test'
+        text='Вы уже прошли тест'
     )
 
 async def start_test(
@@ -100,6 +106,11 @@ def register_test_handlers(dp: Dispatcher) -> None:
         testing,
         answer_callback_data.filter(),
         state='testing',
+    )
+    dp.register_callback_query_handler(
+        callback=say_that_test_started,
+        state='testing',
+        text='start_test'
     )
     dp.register_callback_query_handler(
         start_test,
