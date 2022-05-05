@@ -3,6 +3,7 @@ import json
 
 from aiogram.dispatcher import Dispatcher, FSMContext
 from aiogram.types import CallbackQuery
+from tgbot.misc.regular_jobs import add_regular_jobs
 
 
 from tgbot.services.db import db_add_user, db_get_questions,\
@@ -114,6 +115,7 @@ async def calculate_results(
             'Жмите /help'
             )
     )
+    await add_regular_jobs()
 
 def register_test_handlers(dp: Dispatcher) -> None:
     dp.register_callback_query_handler(
