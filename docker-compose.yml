@@ -2,6 +2,16 @@ version: '3.3'
 
 services:
 
+  redis:
+    image: 'bitnami/redis:latest'
+    hostname: redis
+    ports:
+      - 6379:6379
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - tg_bot
+
   db:
     container_name: database
     hostname: db
