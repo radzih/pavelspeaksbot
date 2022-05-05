@@ -2,8 +2,10 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
+from aiogram_dialog import DialogRegistry
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler_di import ContextSchedulerDecorator
 
@@ -15,6 +17,7 @@ from tgbot.handlers.start import register_start_handlers
 from tgbot.handlers.test import register_test_handlers
 from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.middlewares.db import DbMiddleware
+from tgbot.widgets.dialogs import words_categories_dialog
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +36,8 @@ def register_all_handlers(dp):
     register_admin(dp)
     register_echo(dp)
 
+def register_dialogs(regitry):
+    regitry.register(words_categories_dialog)
 
 async def main():
     logging.basicConfig(
@@ -42,11 +47,19 @@ async def main():
     logger.info("Starting bot")
     config = load_config(".env")
 
+    job_stores = {
+        "default": RedisJobStore(
+            jobs_key="dispatched_trips_jobs", run_times_key="dispatched_trips_running"
+        )
+    }
+
     storage = RedisStorage2() if config.tg_bot.use_redis else MemoryStorage()
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
-    scheduler = ContextSchedulerDecorator(AsyncIOScheduler())
+    registry = DialogRegistry(dp)  
+    scheduler = ContextSchedulerDecorator(AsyncIOScheduler(jobstores=job_stores))
     scheduler.ctx.add_instance(bot, declared_class=Bot)
+    scheduler.ctx.add_instance(registry, declared_class=DialogRegistry)
 
 
     bot['config'] = config
@@ -54,6 +67,7 @@ async def main():
     register_all_middlewares(dp, scheduler)
     register_all_filters(dp)
     register_all_handlers(dp)
+    register_dialogs(registry)
 
     # start
     try:
