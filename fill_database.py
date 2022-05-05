@@ -8,8 +8,9 @@ os.environ.setdefault(
 django.setup()
 
 from data.test.test import questions
+from data.words.words import words
 from admin_panel.database.models import Question, \
-    Level
+    Level, Word, Word_Category
 
 def add_test(questions: list) -> None:
     for question in questions:
@@ -34,6 +35,29 @@ def add_levels() -> None:
         level='Средний'
     ).save()
 
+def add_words_and_words_categories(words: list) -> None:
+    for word in words:
+        added_words_categories = [
+            cat.category for cat in Word_Category.objects.all()
+        ]
+        if word.get('category') not in added_words_categories:
+            Word_Category(
+                category=word.get('category')
+            ).save()
+        word_category_object = Word_Category.objects.get(
+            category=word.get('category')
+        )
+        word_level_object = Level.objects.get(
+            level=word.get('level')
+        )    
+        Word(
+            word=word.get('word'),
+            translate=word.get('translate'),
+            category=word_category_object,
+            level=word_level_object,
+            audio_path=f'/data/audio/files/{word.get("uuid")}.mp3'
+        ).save()
 
-add_test(questions)
-add_levels()
+# add_test(questions)
+# add_levels()
+add_words_and_words_categories(words)
