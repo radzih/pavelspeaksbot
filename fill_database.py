@@ -40,16 +40,20 @@ def add_words_and_words_categories(words: list) -> None:
         added_words_categories = [
             cat.category for cat in Word_Category.objects.all()
         ]
-        if word.get('category') not in added_words_categories:
-            Word_Category(
-                category=word.get('category')
-            ).save()
-        word_category_object = Word_Category.objects.get(
-            category=word.get('category')
-        )
         word_level_object = Level.objects.get(
             level=word.get('level')
-        )    
+        ) 
+
+        if word.get('category') not in added_words_categories:
+            Word_Category(
+                category=word.get('category'),
+                level=word_level_object
+            ).save()
+        word_category_object = Word_Category.objects.get(
+            category=word.get('category'),
+            level=word_level_object
+        )
+           
         Word(
             word=word.get('word'),
             translate=word.get('translate'),
