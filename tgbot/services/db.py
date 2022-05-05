@@ -8,7 +8,7 @@ os.environ.setdefault(
 django.setup()
 
 from admin_panel.database.models import Question,\
-    User, Level, Word
+    User, Level, Word, Word_Category
 
 @sync_to_async 
 def db_get_questions() -> list:
@@ -54,3 +54,17 @@ def db_get_random_word(telegram_id: int) -> Word:
     user.words.add(random_word)
     user.save()
     return random_word
+
+@sync_to_async
+def db_get_user_info(telegram_id: int) -> tuple:
+    user = User.objects.get(
+        telegram_id=telegram_id
+    )
+    return user.telegram_id, user.level, \
+        user.words.all(), user.words_categories.all()
+
+@sync_to_async
+def dp_get_words_categories(level: Level) -> list:
+    return Word_Category.objects.filter(
+        level=level
+    )

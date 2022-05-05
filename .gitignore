@@ -41,6 +41,7 @@ data/audio/*
 !data/audio/files
 !data/words/words.py
 !__init__.py
+admin_panel/database/migrations/*
 # pyenv
 .python-version
 
