@@ -23,8 +23,8 @@ async def scheduler_send_words(
     await bot.send_message(
         chat_id=telegram_id,
         text=(
-            f'<b>{random_word.word.capitalize()}'
-            f'-{random_word.translate.capitalize()}</b>'
+            f'<b>{random_word.word.capitalize()} '
+            f'- {random_word.translate.capitalize()}</b>'
             )
     )
 
