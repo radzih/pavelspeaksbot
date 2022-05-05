@@ -17,6 +17,7 @@ class Level(models.Model):
 
 class Word_Category(models.Model):
     category = models.CharField(max_length=255)
+    level = models.ForeignKey(Level, on_delete=models.PROTECT)
 
 class Word(models.Model):
     word = models.CharField(max_length=255)
