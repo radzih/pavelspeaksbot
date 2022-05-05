@@ -48,19 +48,18 @@ async def start_test(
         )
     )
 
+
+
 async def testing(
     call: CallbackQuery, 
     state: FSMContext,
     callback_data: dict) -> None:
-    await call.answer()
-    state_data = await state.get_data()
-    questions = await db_get_questions()
-    
-    previous_question_num = state_data.get('question_num')
-    points = state_data.get('points')
-    answer_to_previous_question = callback_data.get('answer')
-
-    previous_question = questions[previous_question_num]
+    questions, previous_question_num, points, \
+        answer_to_previous_question,\
+            previous_question, next_question = await get_data_for_questions(
+                state=state,
+                callback_data=callback_data
+            )
 
     if answer_to_previous_question == previous_question.correct_answer:
         points += previous_question.point
@@ -77,13 +76,28 @@ async def testing(
         points=points,
         question_num=previous_question_num+1,
     )
-    next_question = questions[previous_question_num+1]
+    
     await call.message.edit_text(
         text=next_question.question,
         reply_markup=await get_answers_markup(
             answers=json.loads(next_question.answers)
         )
     )
+
+async def get_data_for_questions(
+    state: FSMContext,
+    callback_data: dict) -> tuple:
+    state_data = await state.get_data()
+    questions = await db_get_questions()
+
+    previous_question_num = state_data.get('question_num')
+    points = state_data.get('points')
+
+    answer_to_previous_question = callback_data.get('answer')
+    next_question = questions[previous_question_num+1]
+    previous_question = questions[previous_question_num]
+    return questions, previous_question_num, points, \
+        answer_to_previous_question, previous_question, next_question
 
 async def calculate_results(
     call: CallbackQuery,
