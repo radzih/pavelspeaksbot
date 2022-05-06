@@ -98,9 +98,8 @@ def db_get_words_categories(level: Level) -> list:
     ).all())
 
 @sync_to_async
-def db_get_user_words_categories(
-    telegram_id: int)  -> list:
-    return list(User.objects.get(
+def db_delete_categories(telegram_id: int) -> None:
+    user = User.objects.get(
         telegram_id=telegram_id
-    ).words_categories.all())
-
+    )
+    user.words_categories.clear()
