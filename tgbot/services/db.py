@@ -103,3 +103,11 @@ def db_get_user_words_categories(
     return list(User.objects.get(
         telegram_id=telegram_id
     ).words_categories.all())
+
+@sync_to_async
+def db_get_user_words(telegram_id: int) -> list:
+    return list(
+        User.objects.get(
+            telegram_id=telegram_id
+        ).words.all().order_by('?')
+    )
