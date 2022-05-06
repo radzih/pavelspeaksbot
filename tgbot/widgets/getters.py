@@ -1,6 +1,6 @@
 from aiogram_dialog import DialogManager
 
-from tgbot.services.db import db_get_user_info, dp_get_words_categories
+from tgbot.services.db import db_get_user_info, db_get_words_categories
 
 async def get_words_categories(**kwargs) -> dict:
     dialog_manager = kwargs.get('dialog_manager')
@@ -8,7 +8,7 @@ async def get_words_categories(**kwargs) -> dict:
     _, user_level, *_ = await db_get_user_info(
         telegram_id=telegram_id
     )
-    categories_objects = await dp_get_words_categories(
+    categories_objects = await db_get_words_categories(
         level=user_level
     )
     return {

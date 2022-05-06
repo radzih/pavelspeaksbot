@@ -1,9 +1,10 @@
+import telnetlib
 from tkinter import Button
 from aiogram.types import CallbackQuery
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.kbd import Multiselect
 
-from tgbot.services.db import db_add_user_word_category, db_remove_user_word_category
+from tgbot.services.db import db_add_user_word_category, db_get_user_words_categories, db_remove_user_word_category
 
 
 
@@ -26,6 +27,14 @@ async def add_or_remove_category(
 async def hide_choose_category_list(
     call: CallbackQuery,
     *args) -> None:
-    await call.message.edit_text(
-        text='Категории добавлены'
-    )    
+    user_words_categories = await db_get_user_words_categories(
+        telegram_id=call.from_user.id
+    )
+    if len(user_words_categories) > 2:
+        await call.message.edit_text(
+            text='Категории добавлены'
+        )    
+    else:
+        await call.answer(
+            text='Выберите минимум 3 категории'
+        )
