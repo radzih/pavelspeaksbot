@@ -39,6 +39,34 @@ def db_add_user_level(
             user.save()
 
 @sync_to_async
+def db_add_user_word_category(
+    telegram_id: int,
+    category_id: int) -> None:
+    category = Word_Category.objects.get(
+        id=category_id
+    )
+    user = User.objects.get(
+        telegram_id=telegram_id
+    )
+    user.words_categories.add(category)
+    user.save()
+
+@sync_to_async
+def db_remove_user_word_category(
+    telegram_id: int,
+    category_id: int) -> None:
+    category = Word_Category.objects.get(
+        id=category_id
+    )
+    user = User.objects.get(
+        telegram_id=telegram_id
+    )
+    user.words_categories.remove(
+        category
+    )
+
+
+@sync_to_async
 def db_get_random_word(telegram_id: int) -> Word:
     user = User.objects.get(telegram_id=telegram_id)
     user_words_categories = user.words_categories.all()
@@ -65,6 +93,6 @@ def db_get_user_info(telegram_id: int) -> tuple:
 
 @sync_to_async
 def dp_get_words_categories(level: Level) -> list:
-    return Word_Category.objects.filter(
+    return list(Word_Category.objects.filter(
         level=level
-    )
+    ).all())

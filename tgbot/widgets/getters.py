@@ -14,7 +14,7 @@ async def get_words_categories(**kwargs) -> dict:
     return {
         "categories": [
             (
-                object.category,
+                object.category.capitalize(),
                 object.id
                 ) for object in categories_objects
             ],
