@@ -36,9 +36,6 @@ def add_levels() -> None:
 
 def add_words_and_words_categories(words: list) -> None:
     for word in words:
-        added_words_categories = [
-            cat.category for cat in Word_Category.objects.all()
-        ]
         word_level_object = Level.objects.get(
             level=word.get('level')
         ) 
