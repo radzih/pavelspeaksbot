@@ -1,5 +1,6 @@
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
+from aiogram.utils.markdown import hbold
 
 from tgbot.filters.registered import IsRegistered
 from tgbot.services.db import db_get_user_info
@@ -17,11 +18,11 @@ async def show_profile(
     ]
     if len(user_words_categories) != 0:
         text.append(
-            f'Выбраные категории слов:\n',
+            f'Выбраные категории слов:\n<b>  - </b> ',
         )
         text.append(
-            '\n  - '.join(
-                cat.category.capitalize() for cat in user_words_categories
+            '\n<b>  -  </b>'.join(
+                hbold(cat.category.capitalize()) for cat in user_words_categories
                 )
             )
     await message.answer(
