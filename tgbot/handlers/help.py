@@ -12,7 +12,7 @@ async def send_help(message: Message) -> None:
     )
 
 
-def register_info_handlers(dp: Dispatcher) -> None:
+def register_help_handlers(dp: Dispatcher) -> None:
     dp.register_message_handler(
         send_help,
         commands=['info'],
