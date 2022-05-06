@@ -33,8 +33,8 @@ profile_markup = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Поменять категори и слов',
-                callback_data='change_words_categories'
+                text='Выбрать категори слов заново',
+                callback_data='choose_words_categories'
             )
         ],
         [
