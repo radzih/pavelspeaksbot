@@ -7,7 +7,7 @@ from aiogram.types import CallbackQuery
 from aiogram.dispatcher import Dispatcher, FSMContext
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from tgbot.misc.regular_jobs import add_regular_jobs
+from tgbot.misc.scheduler_jobs import add_jobs
 from tgbot.services.db import db_add_user, db_get_questions,\
     db_add_user_level
 from tgbot.keyboards.inline import get_answers_markup
@@ -128,7 +128,7 @@ async def calculate_results(
             'Жмите /help'
             )
     )
-    await add_regular_jobs(
+    await add_jobs(
         bot=call.bot,
         scheduler=scheduler,
         telegram_id=call.from_user.id,    )
