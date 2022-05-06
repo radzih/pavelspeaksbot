@@ -5,10 +5,10 @@ from aiogram.types import Message
 from aiogram.types.input_file import InputFile
 
 from tgbot.filters.registered import IsRegistered
-from tgbot.services.db import db_get_user_words
+from tgbot.services.db import db_get_user_info
 
 async def repeat_words(message: Message) -> None:
-    user_words = await db_get_user_words(
+    *_, user_words, _ = await db_get_user_info(
         telegram_id=message.from_user.id
     )
     for word in user_words[:5]:

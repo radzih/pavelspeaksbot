@@ -89,7 +89,7 @@ def db_get_user_info(telegram_id: int) -> tuple:
         telegram_id=telegram_id
     )
     return user.telegram_id, user.level, \
-        user.words.all(), user.words_categories.all()
+        user.words.all().order_by('?'), user.words_categories.all()
 
 @sync_to_async
 def db_get_words_categories(level: Level) -> list:
@@ -104,10 +104,3 @@ def db_get_user_words_categories(
         telegram_id=telegram_id
     ).words_categories.all())
 
-@sync_to_async
-def db_get_user_words(telegram_id: int) -> list:
-    return list(
-        User.objects.get(
-            telegram_id=telegram_id
-        ).words.all().order_by('?')
-    )
