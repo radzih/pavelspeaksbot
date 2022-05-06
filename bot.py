@@ -15,6 +15,7 @@ from tgbot.handlers.admin import register_admin
 from tgbot.handlers.echo import register_echo
 from tgbot.handlers.help import register_help_handlers
 from tgbot.handlers.info import register_info_handlers
+from tgbot.handlers.profile import register_profile_handlers
 from tgbot.handlers.repeat import register_repeat_handlers
 from tgbot.handlers.start import register_start_handlers
 from tgbot.handlers.test import register_test_handlers
@@ -39,6 +40,7 @@ def register_all_handlers(dp):
     register_repeat_handlers(dp)
     register_info_handlers(dp)
     register_help_handlers(dp)
+    register_profile_handlers(dp)
     register_admin(dp)
     register_echo(dp)
 

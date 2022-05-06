@@ -28,3 +28,21 @@ async def get_answers_markup(
             )
         )
     return answer_kb
+
+profile_markup = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(
+                text='Поменять категори и слов',
+                callback_data='change_words_categories'
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text='Поменять часовой пояс',
+                switch_inline_query_current_chat=''
+                
+            )
+        ]
+    ]
+)
