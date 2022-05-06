@@ -89,7 +89,7 @@ def db_get_user_info(telegram_id: int) -> tuple:
         telegram_id=telegram_id
     )
     return user.telegram_id, user.level, \
-        user.words.all().order_by('?'), user.words_categories.all()
+        list(user.words.all().order_by('?')), list(user.words_categories.all())
 
 @sync_to_async
 def db_get_words_categories(level: Level) -> list:
