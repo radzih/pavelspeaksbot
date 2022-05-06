@@ -10,13 +10,6 @@ async def user_start(message: Message) -> None:
         text="Hello, user!",
         reply_markup=start_test_markup)
 
-async def test(m: Message, dialog_manager: DialogManager) -> None:
-    await dialog_manager.start(
-        state=ChooseCategories.words_categories,
-        data=m.from_user.id
-    )
-
 def register_start_handlers(dp: Dispatcher):
     dp.register_message_handler(user_start, commands=["start"])
-    dp.register_message_handler(test, commands=["test"])
     
