@@ -6,7 +6,6 @@ os.environ.setdefault(
     'DJANGO_SETTINGS_MODULE', 'admin_panel.admin_panel.settings'
 )
 django.setup()
-
 from data.test.test import questions
 from data.words.words import words
 from admin_panel.database.models import Question, \
@@ -44,15 +43,17 @@ def add_words_and_words_categories(words: list) -> None:
             level=word.get('level')
         ) 
 
-        if word.get('category') not in added_words_categories:
-            Word_Category(
+        try:
+            word_category_object = Word_Category.objects.get(
                 category=word.get('category'),
                 level=word_level_object
-            ).save()
-        word_category_object = Word_Category.objects.get(
-            category=word.get('category'),
-            level=word_level_object
-        )
+            )
+        except:
+            word_category_object = Word_Category(
+                category=word.get('category'),
+                level=word_level_object
+            )
+            word_category_object.save()
            
         Word(
             word=word.get('word'),
