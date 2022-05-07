@@ -46,3 +46,19 @@ profile_markup = InlineKeyboardMarkup(
         ]
     ]
 )
+
+timezone_callback = CallbackData('tiimezone', 'timezone')
+async def confirm_change_timezone_markup(
+    timezone: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text='Да',
+                    callback_data=timezone_callback.new(
+                        timezone=timezone
+                    )
+                )
+            ]
+        ]
+    )    
