@@ -20,7 +20,7 @@ async def send_word(
     await bot.send_voice(
         chat_id=telegram_id,
         voice=InputFile(
-            path_or_bytesio=f'{sys.path[-1]}{random_word.audio_path}'
+            path_or_bytesio=f'.{random_word.audio_path}'
         )
     )
     await bot.send_message(
