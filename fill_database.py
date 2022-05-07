@@ -14,7 +14,7 @@ from admin_panel.database.models import Question, \
 def add_test(questions: list) -> None:
     for question in questions:
         if len(question.get('answers')) > 2:
-            answers = question.get('answers') + ['He znayu']
+            answers = question.get('answers') + ['He знаю']
         else:
             answers = question.get('answers')
         Question(
