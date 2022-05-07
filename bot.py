@@ -61,11 +61,14 @@ async def main():
 
     job_stores = {
         "default": RedisJobStore(
-            jobs_key="dispatched_trips_jobs", run_times_key="dispatched_trips_running"
+            jobs_key="dispatched_trips_jobs",
+            run_times_key="dispatched_trips_running"
         )
     }
 
-    storage = RedisStorage2() if config.tg_bot.use_redis else MemoryStorage()
+    storage = RedisStorage2(
+        host=config.redis.host
+        ) if config.tg_bot.use_redis else MemoryStorage()
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
     registry = DialogRegistry(dp)  
