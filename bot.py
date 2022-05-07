@@ -45,8 +45,6 @@ def register_all_handlers(dp):
     register_profile_handlers(dp)
     register_choose_categories_handlers(dp)
     register_change_timezone_handlers(dp)
-    register_admin(dp)
-    register_echo(dp)
 
 def register_dialogs(regitry):
     regitry.register(words_categories_dialog)
