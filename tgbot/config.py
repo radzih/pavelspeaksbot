@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from environs import Env
+import redis
 
 
 @dataclass
@@ -31,6 +32,7 @@ class Miscellaneous:
 class Config:
     tg_bot: TgBot
     db: DbConfig
+    redis: RedisConfig
     misc: Miscellaneous
 
 
