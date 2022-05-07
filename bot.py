@@ -11,10 +11,8 @@ from apscheduler_di import ContextSchedulerDecorator
 
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
-from tgbot.handlers.admin import register_admin
 from tgbot.handlers.change_timezone import register_change_timezone_handlers
 from tgbot.handlers.choose_categories import register_choose_categories_handlers
-from tgbot.handlers.echo import register_echo
 from tgbot.handlers.help import register_help_handlers
 from tgbot.handlers.info import register_info_handlers
 from tgbot.handlers.profile import register_profile_handlers
