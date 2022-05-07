@@ -15,7 +15,7 @@ async def repeat_words(message: Message) -> None:
         await message.bot.send_voice(
             chat_id=message.from_user.id,
             voice=InputFile(
-                path_or_bytesio=f'{sys.path[-1]}{word.audio_path}'
+                path_or_bytesio=f'.{word.audio_path}'
             )
         )
         await message.bot.send_message(
