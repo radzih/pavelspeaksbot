@@ -43,9 +43,13 @@ async def change_timezone(
     call: CallbackQuery,
     scheduler: AsyncIOScheduler,
     callback_data: dict) -> None:
-    scheduler.modify_job(
+    scheduler.reschedule_job(
         job_id=f"{call.from_user.id}send_word",
-        timezone=pytz.timezone(callback_data['timezone'])
+        trigger='cron',
+        day_of_week='*',
+        hour='9, 12, 14, 16, 18',
+        timezone=pytz.timezone(callback_data['timezone']),
+        jitter=3000,
     )
     await call.message.edit_text(
         text='Часовой пояс смёнен'
