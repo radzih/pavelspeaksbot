@@ -51,7 +51,10 @@ async def start_test(
     answers = json.loads(questions[0].answers)
 
     await call.message.edit_text(
-        text=question,
+        text=(
+            f'Вопрос 1/{len(questions)-1}\n'
+            f'{question}'
+            ),
         reply_markup=await get_answers_markup(
             answers=answers
         )
@@ -91,7 +94,10 @@ async def testing(
     )
     
     await call.message.edit_text(
-        text=next_question.question,
+        text=(
+            f'Вопрос {previous_question_num+1}/{len(questions)-1}\n'
+            f'{next_question.question}'
+            ),
         reply_markup=await get_answers_markup(
             answers=json.loads(next_question.answers)
         )
