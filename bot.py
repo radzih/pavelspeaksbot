@@ -61,6 +61,7 @@ async def main():
 
     job_stores = {
         "default": RedisJobStore(
+            host=config.redis.host,
             jobs_key="dispatched_trips_jobs",
             run_times_key="dispatched_trips_running"
         )
