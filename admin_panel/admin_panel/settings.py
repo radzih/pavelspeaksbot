@@ -20,14 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 import sys 
 from tgbot.config import load_config
-sys.path.append('/home/radizh/Python/Telegram/Pavelspeaksbot/')
+sys.path.append(BASE_DIR.parent)
 config = load_config()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-_@c&04vd8y5r#5mgi*!@nw)0h+qf-p7$90psd*)ocr@d4$s@!o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
@@ -126,6 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = f'{BASE_DIR}/admin_panel/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
