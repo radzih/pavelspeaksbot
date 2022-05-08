@@ -27,6 +27,22 @@ services:
     volumes:
       - ./postgres:/var/lib/postgresql
 
+  django:
+    container_name: django
+    build: 
+      context: .
+    working_dir: "/usr/src/app/${BOT_NAME:-tg_bot}"
+    volumes:
+      - .:/usr/src/app/${BOT_NAME:-tg_bot}
+    command: python django_manage.py runserver 0.0.0.0:80
+    ports:
+      - '80:80'
+    depends_on:
+      - db
+    env_file:
+      - '.env'
+    networks:
+      - tg_bot
 
   bot:
     image: "${BOT_IMAGE_NAME:-tg_bot-image}"
@@ -37,11 +53,11 @@ services:
     working_dir: "/usr/src/app/${BOT_NAME:-tg_bot}"
     volumes:
     - .:/usr/src/app/${BOT_NAME:-tg_bot}
-    # command: python3 -m bot
-    command: bash -c "python django_manage.py runserver 0.0.0.0:8000 | python bot.py"
-    ports:
-      - "8000:8000"
+    command: python bot.py
     restart: always
+    depends_on:
+      - redis
+      - db
     env_file:
       - ".env"
     networks:
