@@ -41,11 +41,15 @@ class Word(models.Model):
     def __str__(self):
         return self.word.capitalize()
 
+class Tip(models.Model):
+    audio_path = models.CharField(max_length=255)
+
 class User(models.Model):
     telegram_id = models.BigIntegerField(unique=True)
     level = models.ForeignKey(Level, on_delete=models.PROTECT, null=True)
     words = models.ManyToManyField(Word, blank=True)
     words_categories = models.ManyToManyField(Word_Category, blank=True)
+    tips = models.ForeignKey(Tip, on_delete=models.PROTECT)
 
     class Meta:
         ordering = ('id','level',)
