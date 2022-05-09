@@ -1,8 +1,7 @@
 import pytz
-import sys
 
 from aiogram import Bot
-from aiogram_dialog import DialogManager, DialogRegistry
+from aiogram_dialog import DialogRegistry
 from aiogram.types.input_file import InputFile
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram_dialog.manager.bg_manager import BgManager
