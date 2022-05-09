@@ -6,7 +6,7 @@ start_test_markup = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Start test',
+                text='Начать тест',
                 callback_data='start_test',
             )
         ]
