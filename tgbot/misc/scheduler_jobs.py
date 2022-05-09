@@ -40,7 +40,8 @@ async def send_tip(
         chat_id=telegram_id,
         voice=InputFile(
             path_or_bytesio=random_tip.audio_path
-        )
+        ),
+        caption='👆Совет от создателя бота👆', 
     )
 
 async def choose_words_categories(
