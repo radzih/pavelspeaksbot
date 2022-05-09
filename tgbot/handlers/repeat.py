@@ -1,5 +1,3 @@
-import sys
-
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
 from aiogram.types.input_file import InputFile

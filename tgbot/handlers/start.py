@@ -1,10 +1,8 @@
 from aiogram import Dispatcher
 from aiogram.types import Message
-from aiogram_dialog import DialogManager
-from tgbot.filters.notregistered import NotRegistered
 
+from tgbot.filters.notregistered import NotRegistered
 from tgbot.keyboards.inline import start_test_markup
-from tgbot.widgets.states import ChooseCategories
 
 async def user_start(message: Message) -> None:
     await message.answer(

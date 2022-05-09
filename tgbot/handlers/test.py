@@ -1,9 +1,6 @@
-from ast import Call
-from email import message
-from email.message import Message
 import json
 
-from aiogram.types import CallbackQuery
+from aiogram.types import CallbackQuery, Message
 from aiogram.dispatcher import Dispatcher, FSMContext
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
