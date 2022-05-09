@@ -49,7 +49,7 @@ class User(models.Model):
     level = models.ForeignKey(Level, on_delete=models.PROTECT, null=True)
     words = models.ManyToManyField(Word, blank=True)
     words_categories = models.ManyToManyField(Word_Category, blank=True)
-    tips = models.ForeignKey(Tip, on_delete=models.PROTECT)
+    tips = models.ManyToManyField(Tip, blank=True)
 
     class Meta:
         ordering = ('id','level',)
