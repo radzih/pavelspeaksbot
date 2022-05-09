@@ -93,14 +93,12 @@ async def add_jobs(
     scheduler.add_job(
         send_tip,
         id=f'{telegram_id}send_tip',
-        trigger='cron',
-        day_of_week='mon, wed, fri',
-        hour='14',
-        timezone=pytz.timezone('Europe/Moscow'),
+        trigger='interval',
+        days=3,
         kwargs={
             'telegram_id': telegram_id,
             },
-        jitter=6000,
+        jitter=10000,
     )
     scheduler.add_job(
         choose_words_categories,
