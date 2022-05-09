@@ -1,3 +1,4 @@
+from email.mime import audio
 import os
 import json
 import django
@@ -9,7 +10,7 @@ django.setup()
 from data.test.test import questions
 from data.words.words import words
 from admin_panel.database.models import Question, \
-    Level, Word, Word_Category
+    Level, Word, Word_Category, Tip
 
 def add_test(questions: list) -> None:
     for question in questions:
@@ -60,6 +61,16 @@ def add_words_and_words_categories(words: list) -> None:
             audio_path=f'/data/audio/files/{word.get("uuid")}.mp3'
         ).save()
 
+def add_tips() -> None:
+    PATH_TO_TIPS = 'data/audio/tips/'
+    tips_filenames = os.listdir(PATH_TO_TIPS)
+    for filename in tips_filenames:
+        Tip(
+            audio_path= PATH_TO_TIPS + filename
+        ).save()
+    
+
 add_test(questions)
 add_levels()
 add_words_and_words_categories(words)
+add_tips()
