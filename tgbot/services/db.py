@@ -1,3 +1,4 @@
+from operator import le
 import os
 import django
 from asgiref.sync import sync_to_async
@@ -73,12 +74,12 @@ def db_get_random_word(telegram_id: int) -> Word:
     if not user_words_categories:
         words = Word.objects.filter(
             level=user.level
-        ).order_by('?').first()
+        )
     else:
         words = Word.objects.filter(
             category__in=user_words_categories,
             level=user.level
-        ).order_by('?')
+        )
     random_word = list(set(words) - set(user.words.all()))[0]
     user.words.add(random_word)
     user.save()
