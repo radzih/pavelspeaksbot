@@ -28,6 +28,10 @@ class Word_Category(models.Model):
     def __str__(self):
         return self.category.capitalize()
 
+class FilmCategory(models.Model):
+    category = models.CharField(max_length=255)
+    level = models.ForeignKey(Level, on_delete=models.PROTECT)
+
 class Word(models.Model):
     word = models.CharField(max_length=255)
     translate = models.CharField(max_length=255)
@@ -40,6 +44,13 @@ class Word(models.Model):
 
     def __str__(self):
         return self.word.capitalize()
+
+class Film(models.Model):
+    original_name = models.CharField(max_length=255)
+    translate_name = models.CharField(max_length=255)
+    link = models.URLField()
+    category = models.ForeignKey(FilmCategory, on_delete=models.PROTECT)
+    level = models.ForeignKey(Level, on_delete=models.PROTECT)
 
 class Tip(models.Model):
     audio_path = models.CharField(max_length=255)
