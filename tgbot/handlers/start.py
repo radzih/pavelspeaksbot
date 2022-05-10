@@ -11,7 +11,7 @@ async def user_start(message: Message) -> None:
 
 async def say_that_bot_already_started(
     message: Message) -> None:
-    await message.asnwer(
+    await message.answer(
         text='Вы уже стартанули бота'
     )
 
