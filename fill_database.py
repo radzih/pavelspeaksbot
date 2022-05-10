@@ -86,12 +86,12 @@ def add_films_and_films_categories(films: list) -> None:
             )
             film_category_object.save()
             
-            Film(
-                original_name=film.get('original_name'),
-                link=film.get('link'),
-                category=film_category_object,
-                level=film_level_object,
-            ).save()
+        Film(
+            original_name=film.get('original_name'),
+            link=film.get('link'),
+            category=film_category_object,
+            level=film_level_object,
+        ).save()
 
 add_test(questions)
 add_levels()
