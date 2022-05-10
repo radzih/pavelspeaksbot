@@ -1,5 +1,5 @@
-from operator import le
 import os
+import random
 import django
 from asgiref.sync import sync_to_async
 
@@ -81,7 +81,9 @@ def db_get_random_word(telegram_id: int) -> Word:
             category__in=user_words_categories,
             level=user.level
         ).order_by('?')
-    random_word = list(set(words) - set(user.words.all()))[0]
+    unique_words  = list(set(words) - set(user.words.all()))
+    random.shuffle(unique_words)
+    random_word = unique_words[0]
     user.words.add(random_word)
     user.save()
     return random_word
@@ -99,7 +101,9 @@ def db_get_random_film(telegram_id: int) -> Film:
             category__in=user_films_categories,
             level=user.level
         ).order_by('?')
-    random_film = list(set(films) - set(user.films.all()))[0]
+    unique_films = list(set(films) - set(user.films.all()))
+    random.shuffle(unique_films)
+    random_film = unique_films[0]
     user.films.add(random_film)
     user.save()
     return random_film
