@@ -16,21 +16,25 @@ class Level(models.Model):
     def __str__(self):
         return self.level.capitalize()
 
-class Word_Category(models.Model):
+class Category(models.Model):
     category = models.CharField(max_length=255)
     level = models.ForeignKey(Level, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return self.category.capitalize()
+
+class Word_Category(Category):
     class Meta:
         ordering = ('id','category', 'level')
         verbose_name_plural = "Word Categories"
         verbose_name = 'Word Category'
 
-    def __str__(self):
-        return self.category.capitalize()
-
-class FilmCategory(models.Model):
-    category = models.CharField(max_length=255)
-    level = models.ForeignKey(Level, on_delete=models.PROTECT)
+    
+class FilmCategory(Category):
+    class Meta:
+        ordering = ('id','category', 'level')
+        verbose_name_plural = "Films Categories"
+        verbose_name = 'Film Category'
 
 class Word(models.Model):
     word = models.CharField(max_length=255)
@@ -51,6 +55,16 @@ class Film(models.Model):
     link = models.URLField()
     category = models.ForeignKey(FilmCategory, on_delete=models.PROTECT)
     level = models.ForeignKey(Level, on_delete=models.PROTECT)
+
+    class Meta:
+        ordering = (
+            'id','original_name',
+            'translate_name', 'link',
+            'category', 'level'
+            )
+
+    def __str__(self):
+        return self.original_name.capitalize()
 
 class Tip(models.Model):
     audio_path = models.CharField(max_length=255)
