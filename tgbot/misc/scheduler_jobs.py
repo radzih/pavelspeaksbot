@@ -27,6 +27,7 @@ async def send_word(
         text=(
             f'<b>{random_word.word.capitalize()} '
             f'- {random_word.translate.capitalize()}</b>'
+            f'👆Вот и новое слово, обязательно выучи его'
             )
     )
 
