@@ -3,7 +3,7 @@ from django.contrib.auth.models import User as DjangoUser
 from django.contrib.auth.models import Group
 
 
-from .models import User, Word, Word_Category
+from .models import User, Word, Word_Category, Film, FilmCategory
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id','telegram_id','level','learned_words')
@@ -23,10 +23,20 @@ class Word_CategoryAdmin(admin.ModelAdmin):
     list_filter = ('level',)
     search_fields = ('category__startswith',)
 
+class FilmAdmin(admin.ModelAdmin):
+    list_display = ('id','original_name','link','category', 'level')
+    list_filter = ('level',)
+
+class FilmCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id','category', 'level')
+    list_filter = ('level',)
+    search_fields = ('category__startswith',)
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Word, WordAdmin)
+admin.site.register(Film, FilmAdmin)
 admin.site.register(Word_Category, Word_CategoryAdmin)
+admin.site.register(FilmCategory, FilmCategoryAdmin)
 admin.site.unregister(DjangoUser)
 admin.site.unregister(Group)
 # Register your models here.
