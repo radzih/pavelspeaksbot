@@ -75,7 +75,7 @@ class User(models.Model):
     words = models.ManyToManyField(Word, blank=True)
     words_categories = models.ManyToManyField(Word_Category, blank=True)
     tips = models.ManyToManyField(Tip, blank=True)
-    films = models.ManyToManyField(Word, blank=True)
+    films = models.ManyToManyField(Film, blank=True)
     films_categories = models.ManyToManyField(FilmCategory, blank=True)
 
     class Meta:
