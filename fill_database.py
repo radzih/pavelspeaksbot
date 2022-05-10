@@ -80,7 +80,7 @@ def add_films_and_films_categories(films: list) -> None:
                 level=film_level_object
             )
         except:
-            film_category_object = Word_Category(
+            film_category_object = FilmCategory(
                 category=film.get('category').lower(),
                 level=film_level_object
             )
