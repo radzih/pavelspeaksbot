@@ -91,7 +91,8 @@ async def add_jobs(
     scheduler: AsyncIOScheduler,
     bot: Bot,
     telegram_id: int) -> None:
-    for _ in range(5):
+    SEND_WORD_ON_START = 5
+    for _ in range(SEND_WORD_ON_START):
         await send_word(
             bot=bot,
             telegram_id=telegram_id,
