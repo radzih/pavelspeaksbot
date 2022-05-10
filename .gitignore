@@ -38,9 +38,11 @@ pip-delete-this-directory.txt
 
 data/words/*
 data/audio/*
+data/films/*
 !data/audio/files
 !data/audio/tips
 !data/words/words.py
+!data/films/films.py
 !__init__.py
 admin_panel/database/migrations/*
 # pyenv
