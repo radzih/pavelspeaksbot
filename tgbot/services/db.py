@@ -9,7 +9,8 @@ os.environ.setdefault(
 django.setup()
 
 from admin_panel.database.models import Question,\
-    User, Level, Word, Word_Category, Tip
+    User, Level, Word, Word_Category, Tip, Film, \
+        FilmCategory
 
 @sync_to_async 
 def db_get_questions() -> list:
@@ -84,6 +85,24 @@ def db_get_random_word(telegram_id: int) -> Word:
     user.words.add(random_word)
     user.save()
     return random_word
+
+@sync_to_async
+def db_get_random_film(telegram_id: int) -> Film:
+    user = User.objects.get(telegram_id=telegram_id)
+    user_films_categories = user.films_categories.all()
+    if not user_films_categories:
+        films = Film.objects.filter(
+            level=user.level
+        )
+    else:
+        films = Film.objects.filter(
+            category__in=user_films_categories,
+            level=user.level
+        )
+    random_film = list(set(films) - set(user.films.all()))[0]
+    user.films.add(random_film)
+    user.save()
+    return random_film
 
 @sync_to_async
 def db_get_random_tip(telegram_id: int) -> Tip:

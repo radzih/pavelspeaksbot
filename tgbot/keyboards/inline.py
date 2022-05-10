@@ -62,3 +62,16 @@ async def confirm_change_timezone_markup(
             ]
         ]
     )    
+
+async def watch_film_markup(link: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text='Смотреть🎥',
+                    url=link,
+
+                )
+            ]
+        ]
+    )
