@@ -88,7 +88,6 @@ def add_films_and_films_categories(films: list) -> None:
             
             Film(
                 original_name=film.get('original_name'),
-                translate_name=film.get('translate_name'),
                 link=film.get('link'),
                 category=film_category_object,
                 level=film_level_object,

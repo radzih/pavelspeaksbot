@@ -51,7 +51,6 @@ class Word(models.Model):
 
 class Film(models.Model):
     original_name = models.CharField(max_length=255)
-    translate_name = models.CharField(max_length=255)
     link = models.URLField()
     category = models.ForeignKey(FilmCategory, on_delete=models.PROTECT)
     level = models.ForeignKey(Level, on_delete=models.PROTECT)
@@ -59,7 +58,7 @@ class Film(models.Model):
     class Meta:
         ordering = (
             'id','original_name',
-            'translate_name', 'link',
+            'link',
             'category', 'level'
             )
 
