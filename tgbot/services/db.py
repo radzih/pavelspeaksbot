@@ -75,12 +75,12 @@ def db_get_random_word(telegram_id: int) -> Word:
     if not user_words_categories:
         words = Word.objects.filter(
             level=user.level
-        )
+        ).order_by('?')
     else:
         words = Word.objects.filter(
             category__in=user_words_categories,
             level=user.level
-        )
+        ).order_by('?')
     random_word = list(set(words) - set(user.words.all()))[0]
     user.words.add(random_word)
     user.save()
@@ -93,12 +93,12 @@ def db_get_random_film(telegram_id: int) -> Film:
     if not user_films_categories:
         films = Film.objects.filter(
             level=user.level
-        )
+        ).order_by('?')
     else:
         films = Film.objects.filter(
             category__in=user_films_categories,
             level=user.level
-        )
+        ).order_by('?')
     random_film = list(set(films) - set(user.films.all()))[0]
     user.films.add(random_film)
     user.save()
