@@ -8,8 +8,9 @@ os.environ.setdefault(
 django.setup()
 from data.test.test import questions
 from data.words.words import words
+from data.films.films import films
 from admin_panel.database.models import Question, \
-    Level, Word, Word_Category, Tip
+    Level, Word, Word_Category, Tip, Film, FilmCategory
 
 def add_test(questions: list) -> None:
     for question in questions:
@@ -68,8 +69,33 @@ def add_tips() -> None:
             audio_path= PATH_TO_TIPS + filename
         ).save()
     
+def add_films_and_films_categories(films: list) -> None:
+    for film in films:
+        film_level_object = Level.objects.get(
+            level=film.get('level')
+        )
+        try:
+            film_category_object = FilmCategory.objects.get(
+                category=film.get('category').lower(),
+                level=film_level_object
+            )
+        except:
+            film_category_object = Word_Category(
+                category=film.get('category').lower(),
+                level=film_level_object
+            )
+            film_category_object.save()
+            
+            Film(
+                original_name=film.get('original_name'),
+                translate_name=film.get('translate_name'),
+                link=film.get('link'),
+                category=film_category_object,
+                level=film_level_object,
+            ).save()
 
 add_test(questions)
 add_levels()
 add_words_and_words_categories(words)
+add_films_and_films_categories(films)
 add_tips()
