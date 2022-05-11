@@ -181,8 +181,15 @@ def db_get_categories(
         )
 
 @sync_to_async
-def db_delete_categories(telegram_id: int) -> None:
+def db_delete_categories(
+    telegram_id: int,
+    category: str) -> None:
     user = User.objects.get(
         telegram_id=telegram_id
     )
-    user.words_categories.clear()
+    categories = {
+        'word': user.words_categories,
+        'film': user.films_categories 
+    }
+    
+    categories.get(category).clear()
