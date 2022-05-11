@@ -1,15 +1,12 @@
 import pytz
 
 from aiogram import Bot
-from aiogram_dialog import DialogRegistry
 from aiogram.types.input_file import InputFile
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from aiogram_dialog.manager.bg_manager import BgManager
 
 from tgbot.keyboards.inline import watch_film_markup
 from tgbot.services.db import db_get_random_film,\
     db_get_random_tip, db_get_random_word
-from tgbot.widgets.states import ChooseCategories
 
 
 async def send_word(
@@ -63,30 +60,6 @@ async def send_tip(
         caption='👆Совет от создателя бота👆', 
     )
 
-async def choose_words_categories(
-    telegram_id: int,
-    bot: Bot,
-    registry: DialogRegistry) -> None:
-    chat_member_object = await bot.get_chat_member(
-        chat_id=telegram_id,
-        user_id=telegram_id,
-        )
-    chat_object = await bot.get_chat(
-        chat_id=telegram_id,
-        )
-    bg_manager = BgManager(
-        user = chat_member_object.user,
-        chat = chat_object,
-        bot = bot,
-        registry = registry,
-        stack_id = '',
-        intent_id = None
-    )
-    await bg_manager.start(
-        state=ChooseCategories.words_categories,
-        data=telegram_id,
-    )
-
 async def add_jobs(
     scheduler: AsyncIOScheduler,
     bot: Bot,
@@ -131,13 +104,4 @@ async def add_jobs(
             'telegram_id': telegram_id,
             },
         jitter=10000,
-    )
-    scheduler.add_job(
-        choose_words_categories,
-        id=f'{telegram_id}choose_words_categories',
-        trigger='date',
-        run_date=pytz.datetime.datetime.now() + pytz.datetime.timedelta(days=1),
-        kwargs={
-            'telegram_id': telegram_id,
-            },
     )
