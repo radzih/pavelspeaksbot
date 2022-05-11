@@ -54,6 +54,20 @@ def db_add_user_word_category(
     user.save()
 
 @sync_to_async
+def db_add_user_film_category(
+    telegram_id: int,
+    category_id: int) -> None:
+    category = FilmCategory.objects.get(
+        id=category_id
+    )
+    user = User.objects.get(
+        telegram_id=telegram_id
+    )
+    user.films_categories.add(category)
+    user.save()
+
+
+@sync_to_async
 def db_remove_user_word_category(
     telegram_id: int,
     category_id: int) -> None:
@@ -67,6 +81,33 @@ def db_remove_user_word_category(
         category
     )
 
+
+@sync_to_async
+def db_remove_user_film_category(
+    telegram_id: int,
+    category_id: int) -> None:
+    category = FilmCategory.objects.get(
+        id=category_id
+    )
+    user = User.objects.get(
+        telegram_id=telegram_id
+    )
+    user.films_categories.remove(
+        category
+    )
+
+@sync_to_async
+def db_get_user_categories(
+    telegram_id: int,
+    category: str) -> list:
+    user = User.objects.get(
+        telegram_id=telegram_id
+    )
+    categories = {
+        'word': user.words_categories,
+        'film': user.films_categories,
+    }
+    return list(categories.get(category).all()) 
 
 @sync_to_async
 def db_get_random_word(telegram_id: int) -> Word:
@@ -125,10 +166,19 @@ def db_get_user_info(telegram_id: int) -> tuple:
         list(user.words.all().order_by('?')), list(user.words_categories.all())
 
 @sync_to_async
-def db_get_words_categories(level: Level) -> list:
-    return list(Word_Category.objects.filter(
-        level=level
-    ).all())
+def db_get_categories(
+    level: Level,
+    category: str) -> list:
+    categories = {
+        'word': Word_Category,
+        'film': FilmCategory,
+    }
+    CategoryObject = categories.get(category)
+    return list(
+        CategoryObject.objects.filter(
+            level=level
+        ).all()
+        )
 
 @sync_to_async
 def db_delete_categories(telegram_id: int) -> None:
