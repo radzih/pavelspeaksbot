@@ -21,7 +21,8 @@ from tgbot.handlers.start import register_start_handlers
 from tgbot.handlers.test import register_test_handlers
 from tgbot.middlewares.scheduler import SchedulerMiddleware
 from tgbot.middlewares.db import DbMiddleware
-from tgbot.widgets.dialogs import words_categories_dialog
+from tgbot.widgets.dialogs import words_categories_dialog,\
+    films_categories_dialog
 
 logger = logging.getLogger(__name__)
 
@@ -44,8 +45,9 @@ def register_all_handlers(dp):
     register_choose_categories_handlers(dp)
     register_change_timezone_handlers(dp)
 
-def register_dialogs(regitry):
-    regitry.register(words_categories_dialog)
+def register_dialogs(registry):
+    registry.register(words_categories_dialog)
+    registry.register(films_categories_dialog)
 
 async def main():
     logging.basicConfig(

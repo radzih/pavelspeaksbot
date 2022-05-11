@@ -1,5 +1,8 @@
 from aiogram.dispatcher.filters.state \
     import StatesGroup, State
 
-class ChooseCategories(StatesGroup):
-    words_categories = State()
+class WordCategories(StatesGroup):
+    choose = State()
+
+class FilmCategories(StatesGroup):
+    choose = State()
