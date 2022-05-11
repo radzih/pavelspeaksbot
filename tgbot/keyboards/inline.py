@@ -39,6 +39,12 @@ profile_markup = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton(
+                text='Выбрать категори фильмов заново',
+                callback_data='choose_films_categories'
+            )
+        ],
+        [
+            InlineKeyboardButton(
                 text='Поменять часовой пояс',
                 switch_inline_query_current_chat=''
                 
