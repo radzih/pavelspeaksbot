@@ -30,5 +30,5 @@ def register_repeat_handlers(dp: Dispatcher) -> None:
         repeat_words,
         IsRegistered(),
         commands=['repeat'],
-
+        
     )
