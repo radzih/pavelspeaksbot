@@ -1,6 +1,9 @@
+from email.message import Message
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.utils.markdown import hcode
+
+from tgbot.misc.scheduler_jobs import send_word
 
 
 async def bot_echo(message: types.Message):
@@ -23,6 +26,14 @@ async def bot_echo_all(message: types.Message, state: FSMContext):
     await message.answer('\n'.join(text))
 
 
+async def test(message: Message):
+    await send_word(message.bot, message.from_user.id)
+
+
 def register_echo(dp: Dispatcher):
+    dp.register_message_handler(
+        test,
+        commands=['test']
+    )
     dp.register_message_handler(bot_echo)
     dp.register_message_handler(bot_echo_all, state="*", content_types=types.ContentTypes.ANY)
