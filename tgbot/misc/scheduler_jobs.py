@@ -11,9 +11,9 @@ from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
 from tgbot.config import load_config
 from tgbot.handlers.get_sentence import say_bad
-# from tgbot.keyboards.inline import watch_film_markup
+from tgbot.keyboards.inline import watch_film_markup
 from tgbot.services.db import \
-    db_get_random_tip, db_get_random_word
+    db_get_random_tip, db_get_random_word, db_get_random_film
 
 CHANCE_TO_GET_SENTENCE = 20
 
