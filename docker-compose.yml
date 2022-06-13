@@ -11,7 +11,7 @@ services:
       - tg_bot
 
   db:
-    container_name: database
+    container_name: database_pavelspeaks
     hostname: db
     image: postgres:10.5
 
