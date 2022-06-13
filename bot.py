@@ -13,6 +13,8 @@ from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.change_timezone import register_change_timezone_handlers
 from tgbot.handlers.choose_categories import register_choose_categories_handlers
+from tgbot.handlers.echo import register_echo
+from tgbot.handlers.get_sentence import register_get_sentence_handlers
 from tgbot.handlers.help import register_help_handlers
 from tgbot.handlers.info import register_info_handlers
 from tgbot.handlers.profile import register_profile_handlers
@@ -42,8 +44,10 @@ def register_all_handlers(dp):
     register_info_handlers(dp)
     register_help_handlers(dp)
     register_profile_handlers(dp)
+    register_get_sentence_handlers(dp)
     register_choose_categories_handlers(dp)
     register_change_timezone_handlers(dp)
+    register_echo(dp)
 
 def register_dialogs(registry):
     registry.register(words_categories_dialog)

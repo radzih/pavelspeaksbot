@@ -1,13 +1,24 @@
 import pytz
+import random
+import asyncio
 
 from aiogram import Bot
+from aiogram.dispatcher import FSMContext
 from aiogram.types.input_file import InputFile
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
-from tgbot.keyboards.inline import watch_film_markup
-from tgbot.services.db import db_get_random_film,\
+from tgbot.config import load_config
+from tgbot.handlers.get_sentence import say_bad
+# from tgbot.keyboards.inline import watch_film_markup
+from tgbot.services.db import \
     db_get_random_tip, db_get_random_word
 
+CHANCE_TO_GET_SENTENCE = 20
+
+def chance(chance: int) -> bool:
+    return random.randint(1, 100) <= chance
 
 async def send_word(
     bot: Bot,
@@ -21,14 +32,36 @@ async def send_word(
             path_or_bytesio=f'.{random_word.audio_path}'
         )
     )
+    is_get_answer = chance(CHANCE_TO_GET_SENTENCE)
+    if is_get_answer:
+        message_text = (
+            '👆Вот и новое слово, составь с ним'
+            ' предложение и скинь мне голосовое')
+    else:
+        message_text = (
+            '👆Вот и новое слово, выучи его'
+            )
     await bot.send_message(
         chat_id=telegram_id,
-        text=(
+        text=''.join((
             f'<b>{random_word.word.capitalize()} '
-            f'- {random_word.translate.capitalize()}</b>\n'
-            f'👆Вот и новое слово, обязательно выучи его'
+            f'- {random_word.translate.capitalize()}</b>\n',
+            message_text)
             )
     )
+    if is_get_answer:
+        config = load_config(".env")
+        storage = RedisStorage2(
+            host=config.redis.host
+            ) if config.tg_bot.use_redis else MemoryStorage()
+        state = FSMContext(storage=storage,chat=telegram_id,user=telegram_id)
+        await state.set_state('get_voice') 
+        await asyncio.sleep(120) #Потом поменяю
+        user_state = await state.get_state()
+        if user_state == 'get_voice':
+            say_bad(bot, telegram_id)
+            await state.finish()
+
 
 async def send_film(
     bot: Bot,
